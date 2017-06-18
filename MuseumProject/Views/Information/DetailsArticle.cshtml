@@ -1,0 +1,64 @@
+﻿@model MuseumProject.Models.ArticleModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Information</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Title)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+    
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.InformationType)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.InformationType)
+    </div>
+    
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Title)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+    
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.CreatedTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreatedTime)
+    </div>
+    
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Text)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Text)
+    </div>
+    
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.IsCommented)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IsCommented)
+    </div>
+    
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Counter)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Counter)
+    </div>    
+</fieldset>
+<p>
+    @Html.ActionLink("Редактировать", "EditArticle", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

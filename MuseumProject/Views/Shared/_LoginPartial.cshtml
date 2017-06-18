@@ -1,0 +1,20 @@
+﻿@using MuseumProject.Context
+@using MuseumProject.Helpers
+@if (Request.IsAuthenticated)
+{
+    <text>
+    Здравствуйте, @Html.ActionLink(User.GetLogin(), "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Управление" })!
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <br />
+            <p class="text-right">
+            <a href="javascript:document.getElementById('logoutForm').submit()" class = "btn  btn-danger", role = "button" >Выйти</a>
+       </p>
+                 }
+    </text>
+}
+else
+{
+    @Html.Partial("Partials/LoginPreview", new LoginModel());
+}

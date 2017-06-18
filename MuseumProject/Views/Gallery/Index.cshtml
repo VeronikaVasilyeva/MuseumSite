@@ -1,0 +1,41 @@
+﻿@using MuseumProject.Helpers
+@model MuseumProject.Models.AbstractInformationIndexModel
+
+@{
+    ViewBag.Title = "Галереи";
+}
+
+<p>
+    @if (User.IsInRole(ConstsHelper.AdministratorRole))
+    {
+        @Html.ActionLink("Создать новую галерею", "Create", null, new { @class = "btn btn-success", role = "button" })
+    }
+</p>
+
+@Html.Partial("Partials/Paging", Model)
+
+@foreach (var item in Model.Items)
+{
+    if (item.Photos != null && item.Photos.Any())
+    {
+        var firstPhotoModel = item.Photos.First();
+            
+    <div class="col-sm-4">
+
+        <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+
+        @Html.Partial("DisplayTemplates/FirstPhotoModel", firstPhotoModel);
+        
+            @Html.ActionLink("Просмотр", "Details", new { id = item.Id }, new { @class = "btn btn-info", role = "button" })
+
+        @if (User.IsInRole(ConstsHelper.AdministratorRole))
+        {
+            @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }, new { @class = "btn  btn-warning", role = "button" })
+
+        }
+
+    </div>
+    }
+@*@Html.ActionLink("Удалить запись", "DeleteArticle", new { id = item.Id })*@
+}
+

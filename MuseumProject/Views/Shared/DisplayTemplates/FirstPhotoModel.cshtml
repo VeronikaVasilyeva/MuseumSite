@@ -1,0 +1,5 @@
+﻿@model MuseumProject.Models.PhotoModel
+@using MuseumProject.Helpers
+
+
+<img  class='col-lg-3 col-sm-4 col-6'  src='@PathHelper.PathToPhoto(Model.FileName)' alt='@Model.PhotoShortDescription' class='thumbnail img-responsive'>

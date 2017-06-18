@@ -1,0 +1,16 @@
+﻿@using MuseumProject.Helpers
+@model MuseumProject.Models.CommentModel
+       
+<div class="col-sm-12 col-lg-12" style="@if (Model.Deleted){<text>background: gainsboro;</text>}">
+    <strong>@Model.UserName </strong><small>@Model.CreatedDate.ToStandardFormatWithTime()</small>
+    <hr/>
+    @Html.Raw(Model.Comment)
+    @if ((User.HasLogin(Model.UserName) || User.IsAdmin()) && !Model.Deleted)
+    {
+        <div>
+            @*<a>Изменить</a>*@
+            <a href="javascript:DeleteComment(@Model.Id)">Удалить</a>
+        </div>
+    }
+</div>
+ 

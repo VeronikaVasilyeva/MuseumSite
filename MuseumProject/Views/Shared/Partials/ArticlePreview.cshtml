@@ -1,0 +1,23 @@
+﻿@using MuseumProject.Helpers
+@model MuseumProject.Models.ArticleModel
+
+
+<h3>@Model.Title</h3>
+@if (Model.Photos != null && Model.Photos.Any())
+{
+    var firstPhotoModel = Model.Photos.First();
+    @Html.Partial("DisplayTemplates/FirstPhotoModel", firstPhotoModel);
+}
+<p class="text-justify">@Html.Raw(Model.ShortDescription)</p>
+<p class="text-right">@Model.CreatedTime.ToStandardFormat()</p>
+<p class="text-right">
+    <span class="badge pull">@Model.Counter</span>
+    @Html.ActionLink("Просмотр", "Details", "Article", new { id = Model.Id }, new { @class = "btn btn-info", role = "button" })
+
+    @if (User.IsInRole(ConstsHelper.AdministratorRole))
+    {
+        @Html.ActionLink("Редактировать", "Edit", "Article", new { id = Model.Id }, new { @class = "btn  btn-warning", role = "button" })
+    
+    }
+</p>
+<hr />

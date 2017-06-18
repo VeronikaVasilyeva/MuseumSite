@@ -1,0 +1,138 @@
+﻿@using MuseumProject.Models
+@model ArticleModel
+
+<div class="row" style="margin: 15px; padding: 5px">
+    <h3>Новая статья</h3>
+@using (Html.BeginForm((string)ViewBag.ActionName, "Article", FormMethod.Post, new { enctype = "multipart/form-data", role = "form", @class = "form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.InformationType)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Title, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-5">
+            @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Text, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-8">
+            @Html.TextAreaFor(model => model.Text, new { @class = "form-control Text" })
+            @Html.ValidationMessageFor(model => model.Text)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsPublished, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-5">
+            <div class="checkbox">
+                <label>
+                    @Html.EditorFor(model => model.IsPublished, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IsPublished)
+                </label>
+            </div>
+        </div>
+    </div>
+        
+    <div class="form-group ">
+        @Html.LabelFor(model => model.IsCommented, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-5">
+            <div class="checkbox">
+                <label>
+                    @Html.EditorFor(model => model.IsCommented, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.IsCommented)
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ShortDescription, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-8">
+            @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control PhotoShortDescription" })
+            @Html.ValidationMessageFor(model => model.ShortDescription)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Photos, new { @class = "col-sm-4 control-label" })
+        @Html.EditorFor(model => model.Photos, new { @class = "form-control" })
+        <div class="col-sm-4">
+            <div></div>
+            <a class="ui-button addPhotoButton btn btn-default" role="button" onclick="AddPhoto()">Добавить фото</a>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-sm-offset-4 col-sm-10">
+            <button type="submit" class="btn btn-success">Сохранить</button>
+            @Html.ActionLink("К списку статей", "Index", null, new { @class = "btn btn-default", role = "button" })
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+    <script type="text/javascript">
+
+        (function () {
+            tinyMCE.init({
+                language: "ru",
+                mode: "textareas",
+                theme: "simple",
+                editor_selector: "Text",
+            });
+        })();
+        (function () {
+            tinyMCE.init({
+                language: "ru",
+                mode: "textareas",
+                theme: "simple",
+                editor_selector: "PhotoShortDescription",
+            });
+        })();
+</script>
+<script>
+    $("form").on("click", ".deletePhotoModelElement", function () {
+        var toRemove = this.parentElement;
+        toRemove.parentElement.removeChild(toRemove);
+    });
+
+    $("form").submit(function () {
+        if (!$(this).valid()) return;
+
+        $("#photoTemplate").remove();
+        var count = $(".photoModelElement").length;
+        var photoModelElements = $(".photoModelElement");
+        for (var i = 0; i < count; i++) {
+            var inputs = $(photoModelElements[i]).find("input");
+            $(inputs[0]).prop("name", "Photos[" + i + "].Id");
+            $(inputs[1]).prop("name", "Photos[" + i + "].FileName");
+            $(inputs[2]).prop("name", "Photos[" + i + "].PhotoTitle");
+            $(inputs[3]).prop("name", "Photos[" + i + "].Published");
+            $(inputs[4]).prop("name", "Photos[" + i + "].Published");
+            $(inputs[5]).prop("name", "Photos[" + i + "].File");
+            $(photoModelElements[i]).find("textarea").prop("name", "Photos[" + i + "].PhotoShortDescription");
+        }
+    });
+
+    function AddPhoto() {
+        var clone = $("#photoTemplate").clone();
+        clone.removeClass("hidden");
+        clone.prop("id", "");
+        clone.find("#Id").val("0");
+        $(".addPhotoButton").closest(".form-group").children("div").last().after(clone);
+    }
+</script>
+
+<div id="photoTemplate" class="hidden">
+    @Html.Partial("EditorTemplates/PhotoModel", new PhotoModel { Id = 0, Published = true })
+</div>
+</div>

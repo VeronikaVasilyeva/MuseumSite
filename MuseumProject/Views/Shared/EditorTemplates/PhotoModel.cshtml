@@ -1,0 +1,53 @@
+﻿@model MuseumProject.Models.PhotoModel
+@using MuseumProject.Helpers
+<div class="photoModelElement">
+    <br />
+    <br />
+
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.FileName)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PhotoTitle, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-5">
+            @Html.TextBoxFor(model => model.PhotoTitle, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PhotoTitle)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PhotoShortDescription, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-5">
+            @Html.TextAreaFor(model => model.PhotoShortDescription, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PhotoShortDescription)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Published, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-5">
+            <div class="checkbox">
+                <label>
+                    @Html.EditorFor(model => model.Published, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Published)
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.File, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-8">
+            @if (!String.IsNullOrEmpty(Model.FileName))
+            {
+                <img class="col-lg-8 col-sm-8 col-8" src="@PathHelper.PathToPhoto(Model.FileName)" alt="@Model.PhotoShortDescription" />
+            }
+            else
+            {
+                <input type="file" accept="image/*" name="@Html.NameFor(model => model.File)" />
+                @Html.ValidationMessageFor(model => model.File)
+            }
+        </div>
+    </div>
+    <a class="usePointerCursor  col-sm-offset-4 deletePhotoModelElement btn btn-danger" role="button">Удалить</a>
+</div>

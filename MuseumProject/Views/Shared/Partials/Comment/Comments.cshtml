@@ -1,0 +1,58 @@
+﻿@model List<MuseumProject.Models.CommentModel>
+
+
+@foreach (var item in Model)
+{
+    @Html.Partial("Partials/Comment/Comment", item)
+}
+
+@if (Request.IsAuthenticated)
+{   
+    <div role="form">
+        <div class="form-group" style="overflow:auto;">
+            <label for="NewCommentText">Комментарий</label>
+            <textarea class="form-control col-sm-8" id="NewCommentText"></textarea>
+        </div>
+
+            <button type="submit" class="btn btn-success" onclick="SubmitComment() ">Оставить комментарий</button>
+    </div>
+
+    <script>
+        function SubmitComment() {
+            var informationId = $("#Id").val();
+            var text = $("#NewCommentText").val();
+
+            $.ajax({
+                url: "@Url.Action("AddComment", "Comments")",
+                data: { id: informationId, text: text },
+                type: "POST",
+                success: function (result) {
+                    if (result.IsSuccess) {
+                        window.location.reload();
+                    } else {
+                        alert(result.Message);
+                    }
+                }
+            });
+        }
+
+        function DeleteComment(id) {
+            $.ajax({
+                url: "@Url.Action("DeleteComment", "Comments")",
+                data: { id: id },
+                type: "POST",
+                success: function(result) {
+                    if (result.IsSuccess) {
+                        window.location.reload();
+                    } else {
+                        alert(result.Message);
+                    }
+                }
+            });
+        }
+    </script>
+}
+else
+{
+    <i>Для того, чтобы оставлять комментарии, необходимо авторизоваться.</i>
+}

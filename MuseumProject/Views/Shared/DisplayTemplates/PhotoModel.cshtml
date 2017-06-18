@@ -1,0 +1,7 @@
+﻿@model MuseumProject.Models.PhotoModel
+@using MuseumProject.Helpers
+
+
+<a href='@PathHelper.PathToPhoto(Model.FileName)' title="@Model.PhotoShortDescription" data-gallery>
+    <img class='col-lg-3 col-sm-4 col-6' src='@PathHelper.PathToPhoto(Model.FileName)' alt="@Model.PhotoShortDescription">
+</a>

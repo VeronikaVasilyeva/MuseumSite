@@ -1,0 +1,21 @@
+﻿@using MuseumProject.Models
+@using MuseumProject.Models.Enums
+@model HomeModel
+
+@{
+    ViewBag.Title = "Главная страница";
+}
+
+@*для отображения предпросмотра для новостей*@
+
+@foreach (var item in Model.Informations)
+{
+    if (item.InformationTypeId == (int)InformationTypes.Article)
+    {
+        @Html.Partial("Partials/ArticlePreview", new ArticleModel(item))
+    }
+    if (item.InformationTypeId == (int)InformationTypes.News)
+    {
+        @Html.Partial("Partials/NewsPreview", new NewsModel(item))
+    }
+}

@@ -1,0 +1,22 @@
+﻿@using MuseumProject.Helpers
+@using MuseumProject.Models
+@model AbstractInformationIndexModel
+
+@{
+    ViewBag.Title = "Статьи";
+}
+
+<p>
+    @if (User.IsAdmin())
+    {
+        @Html.ActionLink("Создать новую статью", "Create", null, new { @class = "btn btn-success", role = "button" })
+    
+    }
+</p>
+
+@Html.Partial("Partials/Paging", Model)
+
+@foreach (var item in Model.Items)
+{
+    @Html.Partial("Partials/ArticlePreview", (ArticleModel)item)
+}

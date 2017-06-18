@@ -1,0 +1,24 @@
+﻿@using MuseumProject.Helpers
+@model MuseumProject.Models.NewsModel
+<div id="@Model.Id" class="row" style="margin-right: 0px; margin-left: 0px;">
+<h3>@Model.Title</h3>
+@if (Model.Photos != null && Model.Photos.Any())
+{
+    var firstPhotoModel = Model.Photos.First();
+    @Html.Partial("DisplayTemplates/FirstPhotoModel", firstPhotoModel);
+}
+<p class="text-justify">@Html.Raw(Model.ShortDescription)</p>
+<p class="text-right">@Model.CreatedTime.ToStandardFormat()</p>
+<p class="text-right">
+    <span class="badge pull">@Model.Counter</span>
+    @Html.ActionLink("Просмотр", "Details", "News", new { id = Model.Id }, new { @class = "btn btn-info", role = "button" })
+
+    @if (User.IsInRole(ConstsHelper.AdministratorRole))
+    {
+        @Html.ActionLink("Редактировать", "Edit", "News", new { id = Model.Id }, new { @class = "btn  btn-warning", role = "button" })
+    
+    }
+</p>
+
+</div>
+<hr />

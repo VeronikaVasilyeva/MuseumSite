@@ -1,0 +1,63 @@
+﻿@model MuseumProject.Models.Interfaces.IPageable
+
+@{
+    var css = new Func<int, string>(p => p == Model.Page ? "active" : "");
+}
+
+<nav>
+    <ul class="pagination">
+        <li>
+            <a href="@Url.Action(Model.Action, new { page = Math.Max(1, Model.Page - 1) })" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        
+        @if (Model.PageCount < 10)
+        {
+            for (var i = 1; i < Model.PageCount + 1; i++)
+            {
+                <li class="@css(i)"><a href="@Url.Action(Model.Action, new { page = i })">@i</a></li>
+            }
+        }
+        else
+        {
+            if (Model.Page < 6)
+            {
+                for (var i = 1; i < 8; i++)
+                {
+                    <li class="@css(i)"><a href="@Url.Action(Model.Action, new { page = i })">@i</a></li>
+                }
+                <li><a href="javascript:">...</a></li>
+                <li><a href="@Url.Action(Model.Action, new { page = Model.PageCount })">@Model.PageCount</a></li>
+            }
+            else
+            {
+                if (Model.PageCount - Model.Page < 5)
+                {
+                    <li><a href="@Url.Action(Model.Action, new { page = 1 })">1</a></li>
+                    <li><a href="javascript:">...</a></li>
+                    for (var i = Model.PageCount - 6; i < Model.PageCount + 1; i++)
+                    {
+                        <li class="@css(i)"><a href="@Url.Action(Model.Action, new { page = i })">@i</a></li>
+                    }
+                }
+                else
+                {
+                    <li><a href="@Url.Action(Model.Action, new { page = 1 })">1</a></li>
+                    <li><a href="javascript:">...</a></li>
+                    for (var i = Model.Page - 2; i < Model.Page + 3; i++)
+                    {
+                        <li class="@css(i)"><a href="@Url.Action(Model.Action, new { page = i })">@i</a></li>
+                    }
+                    <li><a href="javascript:">...</a></li>
+                    <li><a href="@Url.Action(Model.Action, new { page = Model.PageCount })">@Model.PageCount</a></li>
+                }
+            }
+        }
+        <li>
+            <a href="@Url.Action(Model.Action, new { page = Math.Min(Model.Page + 1, Model.PageCount) })" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
